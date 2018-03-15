@@ -2,6 +2,7 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtWayland.Compositor 1.1
+import Qt.labs.handlers 1.0
 
 WaylandCompositor {
     id: compositor
@@ -32,13 +33,33 @@ WaylandCompositor {
                     property real spacing: height * 1.3
                     Repeater {
                         model: swipeView.count
-                        ToolButton {
+                        Item {
+                            width: window.width / window.height * iconBar.height
+                            height: iconBar.height
                             property Page page: swipeView.contentChildren[index]
                             x: (index - swipeView.currentIndex) * iconBar.spacing + window.leftPadding - width/2
-                            text: page.title[0]
-                            font.pixelSize: window.height / 20
-                            onClicked: swipeView.currentIndex = index
+                            TapHandler {
+                                onTapped: swipeView.currentIndex = index
+                            }
+                            Repeater {
+                                model: page.shellSurface
+                                ShellSurfaceItem {
+                                    inputEventsEnabled: false
+                                    enabled: false
+                                    anchors.margins: width / 10
+                                    shellSurface: modelData
+                                    sizeFollowsSurface: false
+                                    anchors.fill: parent
+                                }
+                            }
+                            Label {
+                                anchors.centerIn: parent
+                                font.pixelSize: window.height / 20
+                                font.weight: Font.Bold
+                                text: page.title[0] || ""
+                            }
                             scale: swipeView.currentIndex === index ? 1 : 0.5
+
                             Behavior on x {
                                 NumberAnimation {
                                     duration: 200
@@ -67,6 +88,7 @@ WaylandCompositor {
                         Page {
                             id: page
                             property var shellSurface: modelData
+                            topPadding: page.height / 10
                             leftPadding: page.width / 5
                             rightPadding: leftPadding
                             title: shellSurface.title || shellSurface.toplevel.title || ""
