@@ -11,9 +11,9 @@ WaylandCompositor {
             id: window
             property real leftPadding: window.width / 5
             visible: true
-            width: 640
-            height: 480
-            title: qsTr("Tabs")
+            width: 1280
+            height: 720
+            title: qsTr("Couch Potato")
 
             ColumnLayout {
                 anchors.fill: parent
