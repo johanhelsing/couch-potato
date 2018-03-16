@@ -6,6 +6,7 @@ Page {
     id: page
     leftPadding: window.width / 5
     topPadding: window.height / 25
+    background: null
     ColumnLayout {
         spacing: window.height / 25
         Label { text: "Some option"; font.pixelSize: window.height / 25; font.weight: Font.Light }
