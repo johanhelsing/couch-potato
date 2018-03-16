@@ -95,6 +95,8 @@ WaylandCompositor {
                             ColumnLayout {
                                 spacing: page.height / 15
                                 Label { text: "Switch to " + page.title; font.pixelSize: page.height / 15; font.weight: Font.Light }
+                                Switch { text: "Emulate mouse"; font.pixelSize: page.height / 25; font.weight: Font.Light }
+                                Switch { text: "Emulate arrow keys"; font.pixelSize: page.height / 25; font.weight: Font.Light }
                                 Label { text: "Quit"; font.pixelSize: page.height / 25; font.weight: Font.Light }
                             }
                             ShellSurfaceItem {
