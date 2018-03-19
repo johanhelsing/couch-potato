@@ -3,18 +3,20 @@ import QtWayland.Compositor 1.1
 
 WaylandCompositor {
     id: compositor
-    WaylandOutput {
-        window: CouchWindow {
-        }
-    }
-    ListModel { id: shellSurfaces }
+    property ListModel shellSurfaces: ListModel {}
+
     function handleShellSurfaceCreated(shellSurface) {
-        console.log("shell surface created", shellSurface)
-        shellSurfaces.append({shellSurface: shellSurface});
-//        swipeView.currentIndex = swipeView.count - 1;
+        compositor.shellSurfaces.append({shellSurface: shellSurface});
     }
+
     XdgShellV6 { onToplevelCreated: handleShellSurfaceCreated(xdgSurface); }
     XdgShellV5 { onXdgSurfaceCreated: handleShellSurfaceCreated(xdgSurface); }
     WlShell { onWlShellSurfaceCreated: handleShellSurfaceCreated(wlShellSurface); }
     IviApplication { onIviSurfaceCreated: handleShellSurfaceCreated(iviSurface); }
+
+    WaylandOutput {
+        window: CouchWindow {
+            shellSurfaces: compositor.shellSurfaces
+        }
+    }
 }

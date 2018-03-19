@@ -7,6 +7,7 @@ import Qt.labs.handlers 1.0
 
 ApplicationWindow {
     id: window
+    property ListModel shellSurfaces
     property real leftPadding: window.width / 5
     property ShellSurface currentShellSurface: swipeView.currentItem.shellSurface || null
     visible: true
