@@ -4,5 +4,6 @@
         <file>qtquickcontrols2.conf</file>
         <file>CouchPage.qml</file>
         <file>CouchWindow.qml</file>
+        <file>CouchAppPage.qml</file>
     </qresource>
 </RCC>

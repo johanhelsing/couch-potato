@@ -59,6 +59,8 @@ ApplicationWindow {
                         }
                     }
                     Component.onCompleted: handleSizeChanged();
+                    moveItem: noop // hack to disable window moving
+                    Item { id: noop }
                 }
             }
 
@@ -151,33 +153,10 @@ ApplicationWindow {
                     CouchPage { title: "Browser" }
                     Repeater {
                         model: shellSurfaces
-                        Page {
-                            id: page
-                            property var shellSurface: modelData
-                            topPadding: page.height / 10
-                            leftPadding: page.width / 5
-                            rightPadding: leftPadding
-                            title: shellSurface.title || shellSurface.toplevel.title || ""
-                            background: null
-                            ColumnLayout {
-                                spacing: page.height / 15
-                                Label { text: "Switch to " + page.title; font.pixelSize: page.height / 15; font.weight: Font.Light }
-                                Switch { text: "Emulate mouse"; font.pixelSize: page.height / 25; font.weight: Font.Light }
-                                Switch { text: "Emulate arrow keys"; font.pixelSize: page.height / 25; font.weight: Font.Light }
-                                Label { text: "Quit"; font.pixelSize: page.height / 25; font.weight: Font.Light }
-                            }
-                            ShellSurfaceItem {
-                                id: ssItem
-                                enabled: false
-                                shellSurface: page.shellSurface
-                                sizeFollowsSurface: false
-                                anchors.right: parent.right
-                                anchors.top: parent.top
-                                width: page.width / 5
-                                height: ssItem.implicitHeight / ssItem.implicitWidth * ssItem.width // keep aspect ratio
-                                onSurfaceDestroyed: shellSurfaces.remove(shellSurface)
-                            }
-                            Component.onCompleted: swipeView.currentIndex = SwipeView.index
+                        CouchAppPage {
+                            id: couchAppPage
+                            shellSurface: modelData
+                            onSurfaceDestroyed: shellSurfaces.remove(index)
                         }
                     }
                 }
