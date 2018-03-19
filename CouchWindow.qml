@@ -177,6 +177,7 @@ ApplicationWindow {
                                 height: ssItem.implicitHeight / ssItem.implicitWidth * ssItem.width // keep aspect ratio
                                 onSurfaceDestroyed: shellSurfaces.remove(shellSurface)
                             }
+                            Component.onCompleted: swipeView.currentIndex = SwipeView.index
                         }
                     }
                 }
