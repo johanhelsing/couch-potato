@@ -15,10 +15,11 @@ ApplicationWindow {
     height: 720
     title: qsTr("Couch Potato")
     Shortcut {
-        sequence: "tab"
+        sequence: "escape"
         onActivated: overlay.enabled = !overlay.enabled || !currentShellSurface
     }
     Page { // needed wrapper for global keys to work
+        focus: true
         anchors.fill: parent
         StackView {
             replaceEnter: Transition {
@@ -46,6 +47,7 @@ ApplicationWindow {
         }
 
         Page {
+            focus: true
             anchors.fill: parent
             id: overlay
             opacity: enabled ? 1 : 0
@@ -122,9 +124,10 @@ ApplicationWindow {
                     id: swipeView
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    CouchPage { title: "Settings" }
-                    CouchPage { title: "Launch" }
-                    CouchPage { title: "Browser" }
+                    focus: true
+                    CouchHomePage {}
+                    CouchLaunchPage {}
+                    CouchSettingsPage {}
                     Repeater {
                         model: shellSurfaces
                         CouchAppPage {

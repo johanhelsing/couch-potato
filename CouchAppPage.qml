@@ -14,12 +14,19 @@ Page {
     rightPadding: leftPadding
     title: shellSurface.title || shellSurface.toplevel.title || ""
     background: null
+    function closeShellSurface() {
+        if (shellSurface.toplevel) {
+            shellSurface.toplevel.sendClose();
+        } else {
+            shellSurface.surface.client.close();
+        }
+    }
     ColumnLayout {
         spacing: page.height / 15
-        Label { text: "Switch to " + page.title; font.pixelSize: page.height / 15; font.weight: Font.Light }
-        Switch { text: "Emulate mouse"; font.pixelSize: page.height / 25; font.weight: Font.Light }
-        Switch { text: "Emulate arrow keys"; font.pixelSize: page.height / 25; font.weight: Font.Light }
-        Label { text: "Quit"; font.pixelSize: page.height / 25; font.weight: Font.Light }
+        CouchButton { text: "Switch to " + page.title; focus: true; onClicked: console.log("todo: switch to the application"); }
+        CouchButton { text: "Emulate mouse" }
+        CouchButton { text: "Emulate arrow keys" }
+        CouchButton { text: "Close"; onClicked: page.closeShellSurface() }
     }
     ShellSurfaceItem {
         id: ssItem

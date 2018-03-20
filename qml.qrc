@@ -6,5 +6,9 @@
         <file>CouchWindow.qml</file>
         <file>CouchAppPage.qml</file>
         <file>CouchAppView.qml</file>
+        <file>CouchButton.qml</file>
+        <file>CouchLaunchPage.qml</file>
+        <file>CouchSettingsPage.qml</file>
+        <file>CouchHomePage.qml</file>
     </qresource>
 </RCC>
