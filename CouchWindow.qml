@@ -16,8 +16,6 @@ ApplicationWindow {
     title: qsTr("Couch Potato")
     function toggleOverlay() {
         overlay.enabled = !overlay.enabled || !currentShellSurface
-        if (!overlay.enabled && appViewStack.currentItem.takeFocus)
-            appViewStack.currentItem.takeFocus();
     }
 
     Shortcut {
@@ -25,12 +23,20 @@ ApplicationWindow {
         onActivated: toggleOverlay()
     }
     Page { // needed wrapper for global keys to work
-        focus: true
         anchors.fill: parent
         StackView {
             id: appViewStack
             property ShellSurface activeSurface: window.currentShellSurface
             anchors.fill: parent
+            Connections {
+                target: overlay
+                onEnabledChanged: {
+                    if (!overlay.enabled && appViewStack.currentItem.takeFocus) {
+                        appViewStack.currentItem.takeFocus();
+                    }
+                }
+            }
+
             onActiveSurfaceChanged: {
                 if (activeSurface) {
                     replace("CouchAppView.qml", {shellSurface: activeSurface});
@@ -54,7 +60,6 @@ ApplicationWindow {
         }
 
         Page {
-            focus: true
             anchors.fill: parent
             id: overlay
             opacity: enabled ? 1 : 0
@@ -132,7 +137,6 @@ ApplicationWindow {
                     id: swipeView
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    focus: true
                     CouchHomePage {}
                     CouchLaunchPage {}
                     CouchSettingsPage {}
@@ -143,7 +147,7 @@ ApplicationWindow {
                             shellSurface: modelData
                             onSurfaceDestroyed: shellSurfaces.remove(index)
                             onSwitchToClicked: { window.toggleOverlay() }
-                            Component.onCompleted: swipeView.currentIndex = SwipeView.index
+                            Component.onCompleted: { swipeView.currentIndex = SwipeView.index; overlay.enabled = false }
                         }
                     }
                 }
