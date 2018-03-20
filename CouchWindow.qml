@@ -131,6 +131,7 @@ ApplicationWindow {
                             id: couchAppPage
                             shellSurface: modelData
                             onSurfaceDestroyed: shellSurfaces.remove(index)
+                            Component.onCompleted: swipeView.currentIndex = SwipeView.index
                         }
                     }
                 }
