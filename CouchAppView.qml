@@ -12,18 +12,18 @@ ShellSurfaceItem {
     onHeightChanged: handleSizeChanged()
     function handleSizeChanged() {
         if (!shellSurface) {
-            console.warn("No shell surface, how did we get here?", shellSurface);
             return;
         }
         if (shellSurface.toplevel) {
             shellSurface.toplevel.sendFullscreen(Qt.size(width, height));
-        } else if (shellSurface.sendConfigure){
-            shellSurface.sendConfigure(0, Qt.size(width, height));
+        } else if (shellSurface.sendConfigure) {
+            shellSurface.sendConfigure(Qt.size(width, height), 0);
         } else {
             console.warn("don't know how to resize the surface");
         }
     }
     Component.onCompleted: handleSizeChanged();
+    onShellSurfaceChanged: handleSizeChanged();
     moveItem: noop // hack to disable window moving
     Item { id: noop }
 }

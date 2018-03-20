@@ -11,7 +11,7 @@ WaylandCompositor {
 
     XdgShellV6 { onToplevelCreated: handleShellSurfaceCreated(xdgSurface); }
     XdgShellV5 { onXdgSurfaceCreated: handleShellSurfaceCreated(xdgSurface); }
-    WlShell { onWlShellSurfaceCreated: handleShellSurfaceCreated(wlShellSurface); }
+    WlShell { onWlShellSurfaceCreated: handleShellSurfaceCreated(shellSurface); }
     IviApplication { onIviSurfaceCreated: handleShellSurfaceCreated(iviSurface); }
 
     WaylandOutput {

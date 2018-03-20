@@ -13,7 +13,7 @@ Page {
     topPadding: page.height / 10
     leftPadding: page.width / 5
     rightPadding: leftPadding
-    title: shellSurface.title || shellSurface.toplevel.title || ""
+    title: shellSurface.title || (shellSurface.toplevel && shellSurface.toplevel.title) || ""
     background: null
     function closeShellSurface() {
         if (shellSurface.toplevel) {
