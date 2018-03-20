@@ -30,6 +30,6 @@ Page {
         anchors.top: parent.top
         width: page.width / 5
         height: ssItem.implicitHeight / ssItem.implicitWidth * ssItem.width // keep aspect ratio
-        onSurfaceDestroyed: shellSurfaces.remove(shellSurface)
+        onSurfaceDestroyed: page.surfaceDestroyed()
     }
 }
