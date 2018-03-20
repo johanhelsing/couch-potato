@@ -103,7 +103,6 @@ ApplicationWindow {
                                 ShellSurfaceItem {
                                     inputEventsEnabled: false
                                     enabled: false
-                                    anchors.margins: width / 10
                                     shellSurface: modelData
                                     sizeFollowsSurface: false
                                     anchors.fill: parent
