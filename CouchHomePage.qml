@@ -7,6 +7,16 @@ CouchPage {
     ColumnLayout {
         width: parent.width * 0.66
         spacing: window.height / 25
-        CouchButton { text: "Quit"; focus: true; onClicked: Qt.quit() }
+        CouchButton {
+            focus: true
+            text: "Close all"
+            description: "Close all running apps"
+            onClicked: processEngine.killall()
+        }
+        CouchButton {
+            text: "Quit"
+            description: "Quit Couch Potato"
+            onClicked: Qt.quit()
+        }
     }
 }

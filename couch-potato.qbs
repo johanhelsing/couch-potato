@@ -27,6 +27,8 @@ Project {
 
         files: [
             "main.cpp",
+            "processengine.cpp",
+            "processengine.h",
             "qml.qrc",
         ]
 

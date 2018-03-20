@@ -42,7 +42,9 @@ ApplicationWindow {
             id: appViewStack
             property ShellSurface activeSurface: window.currentShellSurface
             onActiveSurfaceChanged: {
-                replace("CouchAppView.qml", {shellSurface: activeSurface});
+                if (activeSurface) {
+                    replace("CouchAppView.qml", {shellSurface: activeSurface});
+                }
             }
         }
 
@@ -51,6 +53,7 @@ ApplicationWindow {
             anchors.fill: parent
             id: overlay
             opacity: enabled ? 1 : 0
+            onEnabledChanged: if (enabled) forceActiveFocus()
             background: FastBlur {
                 source: appViewStack
                 radius: 32
@@ -134,6 +137,7 @@ ApplicationWindow {
                             id: couchAppPage
                             shellSurface: modelData
                             onSurfaceDestroyed: shellSurfaces.remove(index)
+                            onSwitchToClicked: { overlay.enabled = false; appViewStack.forceActiveFocus() }
                             Component.onCompleted: swipeView.currentIndex = SwipeView.index
                         }
                     }

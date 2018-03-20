@@ -13,7 +13,7 @@ ShellSurfaceItem {
     function handleSizeChanged() {
         if (!shellSurface) {
             console.warn("No shell surface, how did we get here?", shellSurface);
-            return
+            return;
         }
         if (shellSurface.toplevel) {
             shellSurface.toplevel.sendFullscreen(Qt.size(width, height));

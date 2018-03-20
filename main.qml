@@ -19,4 +19,6 @@ WaylandCompositor {
             shellSurfaces: compositor.shellSurfaces
         }
     }
+
+    Component.onCompleted: processEngine.waylandDisplay = compositor.socketName
 }

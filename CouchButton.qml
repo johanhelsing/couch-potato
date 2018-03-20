@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.3
 
 AbstractButton {
     id: button
-    onClicked: console.log("todo: launch app")
     font.weight: Font.Light
     font.pixelSize: window.height / 25
     property int index: {
@@ -29,7 +28,7 @@ AbstractButton {
             }
         }
         implicitHeight: label.implicitHeight + (button.activeFocus ? descriptionText.implicitHeight : 0)
-        implicitWidth: Math.max(label.width, descriptionText.width)
+        implicitWidth: descriptionText.width
         Label {
             id: label
             text: button.text
