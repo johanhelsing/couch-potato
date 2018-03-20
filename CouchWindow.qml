@@ -14,14 +14,28 @@ ApplicationWindow {
     width: 1280
     height: 720
     title: qsTr("Couch Potato")
+    function toggleOverlay() {
+        overlay.enabled = !overlay.enabled || !currentShellSurface
+        if (!overlay.enabled && appViewStack.currentItem.takeFocus)
+            appViewStack.currentItem.takeFocus();
+    }
+
     Shortcut {
         sequence: "escape"
-        onActivated: overlay.enabled = !overlay.enabled || !currentShellSurface
+        onActivated: toggleOverlay()
     }
     Page { // needed wrapper for global keys to work
         focus: true
         anchors.fill: parent
         StackView {
+            id: appViewStack
+            property ShellSurface activeSurface: window.currentShellSurface
+            anchors.fill: parent
+            onActiveSurfaceChanged: {
+                if (activeSurface) {
+                    replace("CouchAppView.qml", {shellSurface: activeSurface});
+                }
+            }
             replaceEnter: Transition {
                 PropertyAnimation {
                     property: "opacity"
@@ -35,15 +49,6 @@ ApplicationWindow {
                     property: "opacity"
                     to: 0
                     duration: 300
-                }
-            }
-
-            anchors.fill: parent
-            id: appViewStack
-            property ShellSurface activeSurface: window.currentShellSurface
-            onActiveSurfaceChanged: {
-                if (activeSurface) {
-                    replace("CouchAppView.qml", {shellSurface: activeSurface});
                 }
             }
         }
@@ -137,7 +142,7 @@ ApplicationWindow {
                             id: couchAppPage
                             shellSurface: modelData
                             onSurfaceDestroyed: shellSurfaces.remove(index)
-                            onSwitchToClicked: { overlay.enabled = false; appViewStack.forceActiveFocus() }
+                            onSwitchToClicked: { window.toggleOverlay() }
                             Component.onCompleted: swipeView.currentIndex = SwipeView.index
                         }
                     }
@@ -151,5 +156,4 @@ ApplicationWindow {
             }
         }
     }
-
 }
