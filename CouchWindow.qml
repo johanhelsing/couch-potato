@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.3
 import QtWayland.Compositor 1.1
 import QtGraphicalEffects 1.0
 import Qt.labs.handlers 1.0
+import QtGamepad 1.0
+import QtQuick.Window 2.7
 
 ApplicationWindow {
     id: window
@@ -17,11 +19,49 @@ ApplicationWindow {
     function toggleOverlay() {
         overlay.enabled = !overlay.enabled || !currentShellSurface
     }
+    function toggleFullscreen() {
+        window.visibility = window.visibility === Window.FullScreen ? Window.Normal : Window.FullScreen;
+    }
+
+    Gamepad {
+        property bool anyButton: buttonUp || buttonDown || buttonLeft || buttonRight ||
+        buttonB || buttonA || buttonY || buttonX ||
+        buttonStart || buttonSelect || buttonGuide ||
+        buttonL1 || buttonR1 || buttonL2 || buttonR2 || buttonL3 || buttonR3
+        id: gamepad
+        deviceId: GamepadManager.connectedGamepads[0] || -1
+        onButtonAChanged: if (buttonA) console.log("gamepad A pressed");
+        onButtonBChanged: if (buttonB) console.log("gamepad B pressed");
+        onButtonXChanged: if (buttonX) console.log("gamepad X pressed");
+        onButtonYChanged: if (buttonY) console.log("gamepad Y pressed");
+        onButtonGuideChanged: if (buttonGuide) toggleOverlay()
+        onButtonStartChanged: if (buttonStart) toggleOverlay()
+    }
+
+    Connections {
+        target: GamepadManager
+        onGamepadConnected: gamepad.deviceId = deviceId
+    }
+
+    GamepadKeyNavigation {
+        id: gamepadKeyNavigation
+        gamepad: gamepad
+        active: !settingsPage.configuringButtons
+        buttonAKey: Qt.Key_Space
+        buttonGuideKey: Qt.Key_Escape
+        buttonStartKey: Qt.Key_Escape
+    }
 
     Shortcut {
         sequence: "escape"
         onActivated: toggleOverlay()
     }
+
+    Shortcut {
+        sequence: "ctrl+f"
+        onActivated: toggleFullscreen()
+    }
+
     Page { // needed wrapper for global keys to work
         anchors.fill: parent
         StackView {
@@ -138,7 +178,7 @@ ApplicationWindow {
                     Layout.fillHeight: true
                     CouchHomePage {}
                     CouchLaunchPage {}
-                    CouchSettingsPage {}
+                    CouchSettingsPage { id: settingsPage }
                     Repeater {
                         model: shellSurfaces
                         CouchAppPage {
