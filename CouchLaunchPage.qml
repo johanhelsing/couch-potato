@@ -7,9 +7,9 @@ CouchPage {
     ColumnLayout {
         width: parent.width * 0.66
         spacing: window.height / 25
-        CouchButton { text: "Firefox"; description: "Web browser"; onClicked: launch("firefox"); focus: true }
-        CouchButton { text: "weston-simple-egl"; description: "EGL demo application"; onClicked: launch("weston-simple-egl") }
-        CouchButton { text: "Qt Creator"; description: "Qts IDE"; onClicked: launch("qtcreator") }
+        CouchButton { text: "Web browser"; description: "Browse the web with Epiphany"; onClicked: launch("epiphany"); focus: true }
         CouchButton { text: "Files"; description: "Browse files using Nautilus"; onClicked: launch("nautilus") }
+        CouchButton { text: "Qt Creator"; description: "Qts IDE"; onClicked: launch("qtcreator") }
+        CouchButton { text: "weston-simple-egl"; description: "EGL demo application"; onClicked: launch("weston-simple-egl") }
     }
 }
