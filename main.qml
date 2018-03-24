@@ -15,6 +15,8 @@ WaylandCompositor {
     IviApplication { onIviSurfaceCreated: handleShellSurfaceCreated(iviSurface); }
 
     WaylandOutput {
+        id: output
+        scaleFactor: 2
         window: CouchWindow {
             shellSurfaces: compositor.shellSurfaces
         }

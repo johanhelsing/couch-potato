@@ -71,6 +71,10 @@ CouchPage {
             onClicked: GamepadManager.resetConfiguration(gamepad.deviceId);
             description: "Reset button bindings to defaults"
         }
+        CouchButton {
+            text: "Scale factor " + output.scaleFactor
+            onClicked: output.scaleFactor = (output.scaleFactor + 1) % 3 + 1
+        }
     }
     Column {
         anchors.top: parent.top
