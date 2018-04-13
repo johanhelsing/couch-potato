@@ -55,5 +55,31 @@ ShellSurfaceItem {
         onButtonRightChanged: sendKey(keyCodes.right, gamepad.buttonRight);
         onButtonAChanged: sendKey(keyCodes.space, gamepad.buttonA);
         onButtonBChanged: sendKey(keyCodes.enter, gamepad.buttonB);
+        onAxisLeftXChanged: mouseCursor.updateCursorPosition();
+        onAxisLeftYChanged: mouseCursor.updateCursorPosition();
+        onButtonXChanged: gamepad.buttonX ? gamepadSeat.sendMousePressEvent(Qt.LeftButton) : gamepadSeat.sendMouseReleaseEvent(Qt.LeftButton)
+        onButtonYChanged: gamepad.buttonX ? gamepadSeat.sendMousePressEvent(Qt.RightButton) : gamepadSeat.sendMouseReleaseEvent(Qt.RightButton)
+    }
+    WaylandCursorItem {
+        property real cursorSpeed: window.width / 2 // pixels per second
+        id: mouseCursor
+        inputEventsEnabled: false
+        seat: gamepadSeat
+        function updateCursorPosition() {
+            update(); // just queue the update, we do the real movement before rendering
+        }
+        function doUpdateCursorPosition() {
+            const deltaTime = 0.016; // assuming smooth 60 fps
+            x += gamepad.axisLeftX * mouseCursor.cursorSpeed * deltaTime;
+            y += gamepad.axisLeftY * mouseCursor.cursorSpeed * deltaTime;
+            var mousePos = Qt.point(x, y);
+            mousePos /= couchAppView.compositor.defaultOutput.scaleFactor; // because of a bug in sendMouseMoveEvent
+            couchAppView.sendMouseMoveEvent(mousePos);
+            couchAppView.sendMouseMoveEvent(mousePos);
+        }
+        Connections {
+            target: window
+            onBeforeSynchronizing: mouseCursor.doUpdateCursorPosition();
+        }
     }
 }
