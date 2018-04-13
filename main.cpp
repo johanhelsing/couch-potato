@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
     ProcessEngine processEngine;
     engine.rootContext()->setContextProperty("processEngine", &processEngine);
-    qmlRegisterUncreatableType<Process>("QtWS17Compositor", 1, 0, "Process", "Can't create process from QML");
+    qmlRegisterUncreatableType<Process>("CouchPotato", 1, 0, "Process", "Can't create process from QML");
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
