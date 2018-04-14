@@ -10,5 +10,7 @@
         <file>CouchLaunchPage.qml</file>
         <file>CouchSettingsPage.qml</file>
         <file>CouchHomePage.qml</file>
+        <file>CouchSoundEffects.qml</file>
+        <file>qmldir</file>
     </qresource>
 </RCC>

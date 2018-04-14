@@ -30,6 +30,8 @@ Project {
             "processengine.cpp",
             "processengine.h",
             "qml.qrc",
+            "qmldir",
+            "soundeffects.qrc",
         ]
 
         Group {     // Properties for the produced executable

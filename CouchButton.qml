@@ -1,11 +1,13 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import "."
 
 AbstractButton {
     id: button
     font.weight: Font.Light
     font.pixelSize: window.height / 25
+    onActiveFocusChanged: if (activeFocus) CouchSoundEffects.menuHover.play()
     property int index: {
         for (var i = 0; i < parent.children.length; ++i) {
             if (parent.children[i] === this) { return i; }
