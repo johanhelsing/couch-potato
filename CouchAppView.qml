@@ -57,29 +57,64 @@ ShellSurfaceItem {
         onButtonBChanged: sendKey(keyCodes.enter, gamepad.buttonB);
         onAxisLeftXChanged: mouseCursor.updateCursorPosition();
         onAxisLeftYChanged: mouseCursor.updateCursorPosition();
+        onAxisRightYChanged: mouseCursor.updateWheelVelocity();
         onButtonXChanged: gamepad.buttonX ? gamepadSeat.sendMousePressEvent(Qt.LeftButton) : gamepadSeat.sendMouseReleaseEvent(Qt.LeftButton)
-        onButtonYChanged: gamepad.buttonX ? gamepadSeat.sendMousePressEvent(Qt.RightButton) : gamepadSeat.sendMouseReleaseEvent(Qt.RightButton)
+        onButtonYChanged: gamepad.buttonY ? gamepadSeat.sendMousePressEvent(Qt.RightButton) : gamepadSeat.sendMouseReleaseEvent(Qt.RightButton)
+        onButtonL1Changed: gamepad.buttonL1 ? gamepadSeat.sendMousePressEvent(Qt.BackButton) : gamepadSeat.sendMouseReleaseEvent(Qt.BackButton)
     }
     WaylandCursorItem {
         property real cursorSpeed: window.width / 2 // pixels per second
+        property real scrollSpeed: window.width * 3 // pixels per second
+        property real scrollBufferX: 0
+        property real scrollBufferY: 0
         id: mouseCursor
         inputEventsEnabled: false
         seat: gamepadSeat
+        function updateWheelVelocity() {
+            update();
+        }
+        function doUpdateWheelVelocity() {
+            const deltaTime = 0.016; // assuming smooth 60 fps
+            if (!couchAppView.activeFocus)
+                return;
+            if (gamepad.axisRightX === 0 && gamepad.axisRightY === 0)
+                return;
+            const deltaX = -gamepad.axisRightX * deltaTime * scrollSpeed;
+            const deltaY = -gamepad.axisRightY * deltaTime * scrollSpeed;
+            scrollBufferX += deltaX;
+            scrollBufferY += deltaY;
+            if (Math.abs(scrollBufferY) > 12) {
+                gamepadSeat.sendMouseWheelEvent(Qt.Vertical, scrollBufferY);
+                scrollBufferY = 0;
+            }
+            if (Math.abs(scrollBufferX) > 12) {
+                gamepadSeat.sendMouseWheelEvent(Qt.Horizontal, scrollBufferX);
+                scrollBufferX = 0;
+            }
+            update(); // keep updating until the axises are left centered
+        }
         function updateCursorPosition() {
             update(); // just queue the update, we do the real movement before rendering
         }
         function doUpdateCursorPosition() {
+            if (!couchAppView.activeFocus)
+                return;
+            if (gamepad.axisLeftX === 0 && gamepad.axisLeftY === 0)
+                return;
             const deltaTime = 0.016; // assuming smooth 60 fps
             x += gamepad.axisLeftX * mouseCursor.cursorSpeed * deltaTime;
             y += gamepad.axisLeftY * mouseCursor.cursorSpeed * deltaTime;
             var mousePos = Qt.point(x, y);
-            mousePos /= couchAppView.compositor.defaultOutput.scaleFactor; // because of a bug in sendMouseMoveEvent
-            couchAppView.sendMouseMoveEvent(mousePos);
+            mousePos.x /= couchAppView.compositor.defaultOutput.scaleFactor; // because of a bug in sendMouseMoveEvent
+            mousePos.y /= couchAppView.compositor.defaultOutput.scaleFactor; // because of a bug in sendMouseMoveEvent
             couchAppView.sendMouseMoveEvent(mousePos);
         }
         Connections {
             target: window
-            onBeforeSynchronizing: mouseCursor.doUpdateCursorPosition();
+            onBeforeSynchronizing: {
+                mouseCursor.doUpdateCursorPosition();
+                mouseCursor.doUpdateWheelVelocity();
+            }
         }
     }
 }
