@@ -17,6 +17,7 @@ WaylandCompositor {
     WaylandOutput {
         id: output
         scaleFactor: 2
+        sizeFollowsWindow: true
         window: CouchWindow {
             shellSurfaces: compositor.shellSurfaces
         }
