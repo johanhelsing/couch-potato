@@ -62,6 +62,11 @@ ApplicationWindow {
         onActivated: toggleFullscreen()
     }
 
+    Shortcut {
+        sequence: "ctrl+q"
+        onActivated: Qt.quit()
+    }
+
     Page { // needed wrapper for global keys to work
         anchors.fill: parent
         StackView {
