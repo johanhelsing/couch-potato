@@ -20,7 +20,7 @@ ApplicationWindow {
         overlay.enabled = !overlay.enabled || !currentShellSurface
     }
     function toggleFullscreen() {
-        window.visibility = window.visibility === Window.FullScreen ? Window.Normal : Window.FullScreen;
+        window.visibility = window.visibility === Window.FullScreen ? Window.Windowed : Window.FullScreen;
     }
 
     Gamepad {
