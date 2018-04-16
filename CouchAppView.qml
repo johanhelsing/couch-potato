@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.2
 import QtWayland.Compositor 1.1
 import QtGraphicalEffects 1.0
 import Qt.labs.handlers 1.0
@@ -14,11 +15,13 @@ ShellSurfaceItem {
     sizeFollowsSurface: false
     onWidthChanged: handleSizeChanged()
     onHeightChanged: handleSizeChanged()
+    Screen.onDevicePixelRatioChanged: handleSizeChanged()
     function handleSizeChanged() {
         if (!shellSurface) {
             return;
         }
-        var size = Qt.size(width / output.scaleFactor, height / output.scaleFactor);
+        const dp = Screen.devicePixelRatio;
+        const size = Qt.size(width / output.scaleFactor * dp, height / output.scaleFactor * dp);
         if (shellSurface.toplevel) {
             shellSurface.toplevel.sendFullscreen(size);
         } else if (shellSurface.sendConfigure) {
