@@ -1,6 +1,6 @@
 # Couch potato
 
-A Wayland compositor written with Qt.
+A Wayland compositor for couch potatoes.
 
 The goal is to have a compositor that can be usable on the couch without
 requiring a mouse or squinting with your eyes.
@@ -29,7 +29,7 @@ Arch linux: `pacman -S qt5-wayland qt5-multimedia qt5-quickcontrols2 qt5-gamepad
 Also, some patches to QtWayland are necessary, they will hopefully be merged
 in 5.12:
 
-- Emulated mouse events: https://codereview.qt-project.org/#/c/226107/ and https://codereview.qt-project.org/#/c/226108/
+- Emulated mouse events: ~~https://codereview.qt-project.org/#/c/226107/~~ (merged) and https://codereview.qt-project.org/#/c/226108/
 - Emulated keyboard events: https://codereview.qt-project.org/#/c/224749/
 - Fix mouse events for scale factor != 1: https://codereview.qt-project.org/#/c/224760/
 
