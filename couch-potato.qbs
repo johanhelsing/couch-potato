@@ -29,10 +29,21 @@ Project {
             "main.cpp",
             "processengine.cpp",
             "processengine.h",
-            "qml.qrc",
-            "qmldir",
-            "soundeffects.qrc",
         ]
+
+        Group {
+            name: "Assets resource data"
+            prefix: "assets/"
+            files: "**"
+            fileTags: ["qt.core.resource_data"]
+        }
+
+        Group {
+            name: "Qml resource data"
+            prefix: "qml/"
+            files: "**"
+            fileTags: ["qt.core.resource_data"]
+        }
 
         Group {     // Properties for the produced executable
             fileTagsFilter: "application"
