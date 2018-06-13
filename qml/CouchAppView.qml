@@ -12,6 +12,7 @@ ShellSurfaceItem {
     //property GamePad gamepad
     //property WaylandCompositor compositor
     property WaylandSeat gamepadSeat: compositor.defaultSeat
+    autoCreatePopupItems: true
     sizeFollowsSurface: false
     onWidthChanged: handleSizeChanged()
     onHeightChanged: handleSizeChanged()
