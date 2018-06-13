@@ -35,30 +35,15 @@ ShellSurfaceItem {
     onShellSurfaceChanged: handleSizeChanged();
     moveItem: noop // hack to disable window moving
     Item { id: noop }
-    property var keyCodes: ({
-        up: 111,
-        down: 116,
-        left: 113,
-        right: 114,
-        space: 65,
-        enter: 36,
-    })
-    function sendKey(keyCode, pressed) {
-        if (pressed) {
-            gamepadSeat.sendKeyPressEvent(keyCode);
-        } else {
-            gamepadSeat.sendKeyReleaseEvent(keyCode);
-        }
-    }
     Connections {
         enabled: couchAppView.activeFocus
         target: gamepad
-        onButtonUpChanged: sendKey(keyCodes.up, gamepad.buttonUp);
-        onButtonDownChanged: sendKey(keyCodes.down, gamepad.buttonDown);
-        onButtonLeftChanged: sendKey(keyCodes.left, gamepad.buttonLeft);
-        onButtonRightChanged: sendKey(keyCodes.right, gamepad.buttonRight);
-        onButtonAChanged: sendKey(keyCodes.space, gamepad.buttonA);
-        onButtonBChanged: sendKey(keyCodes.enter, gamepad.buttonB);
+//        onButtonUpChanged: gamepadSeat.sendKeyEvent(Qt.Key_Up, gamepad.buttonUp);
+//        onButtonDownChanged: gamepadSeat.sendKeyEvent(Qt.Key_Down, gamepad.buttonDown);
+//        onButtonLeftChanged: gamepadSeat.sendKeyEvent(Qt.Key_Left, gamepad.buttonLeft);
+//        onButtonRightChanged: gamepadSeat.sendKeyEvent(Qt.Key_Right, gamepad.buttonRight);
+        onButtonAChanged: gamepadSeat.sendKeyEvent(Qt.Key_Space, gamepad.buttonA);
+        onButtonBChanged: gamepadSeat.sendKeyEvent(Qt.Key_Enter, gamepad.buttonB);
         onAxisLeftXChanged: mouseCursor.updateCursorPosition();
         onAxisLeftYChanged: mouseCursor.updateCursorPosition();
         onAxisRightYChanged: mouseCursor.updateWheelVelocity();
