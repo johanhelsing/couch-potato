@@ -1,9 +1,8 @@
-import QtQuick 2.10
+import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtWayland.Compositor 1.1
 import QtGraphicalEffects 1.0
-import Qt.labs.handlers 1.0
 import QtGamepad 1.0
 import QtQuick.Window 2.7
 
