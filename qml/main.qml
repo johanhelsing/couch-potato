@@ -1,5 +1,5 @@
 import QtQuick 2.10
-import QtWayland.Compositor 1.1
+import QtWayland.Compositor 1.3
 
 WaylandCompositor {
     id: compositor
@@ -9,6 +9,9 @@ WaylandCompositor {
         compositor.shellSurfaces.append({shellSurface: shellSurface});
     }
 
+    XdgShell { onToplevelCreated: handleShellSurfaceCreated(xdgSurface); }
+
+    // legacy shells
     XdgShellV6 { onToplevelCreated: handleShellSurfaceCreated(xdgSurface); }
     XdgShellV5 { onXdgSurfaceCreated: handleShellSurfaceCreated(xdgSurface); }
     WlShell { onWlShellSurfaceCreated: handleShellSurfaceCreated(shellSurface); }
