@@ -12,33 +12,39 @@ WaylandMouseTracker {
     //property WaylandCompositor compositor
     property WaylandSeat gamepadSeat: compositor.defaultSeat
     property alias shellSurface: ssItem.shellSurface
-    anchors.fill: parent
+    property size lastSentSize
     onMouseXChanged: mouseCursor.x = mouseX
     onMouseYChanged: mouseCursor.y = mouseY
+    onWidthChanged: handleSizeChanged()
+    onHeightChanged: handleSizeChanged()
+    Screen.onDevicePixelRatioChanged: handleSizeChanged()
+    function handleSizeChanged() {
+        if (!shellSurface) {
+            return;
+        }
+        const dp = Screen.devicePixelRatio;
+        const size = Qt.size(width / output.scaleFactor * dp, height / output.scaleFactor * dp);
+        if (lastSentSize === size) {
+            return;
+        }
+        if (shellSurface.toplevel) {
+            shellSurface.toplevel.sendFullscreen(size);
+        } else if (shellSurface.sendConfigure) {
+            shellSurface.sendConfigure(size, 0);
+        } else {
+            console.warn("don't know how to resize the surface");
+        }
+    }
+    Component.onCompleted: handleSizeChanged();
     ShellSurfaceItem {
         id: ssItem
         autoCreatePopupItems: true
         sizeFollowsSurface: false
         anchors.fill: parent
-        onWidthChanged: handleSizeChanged()
-        onHeightChanged: handleSizeChanged()
-        Screen.onDevicePixelRatioChanged: handleSizeChanged()
-        function handleSizeChanged() {
-            if (!shellSurface) {
-                return;
-            }
-            const dp = Screen.devicePixelRatio;
-            const size = Qt.size(width / output.scaleFactor * dp, height / output.scaleFactor * dp);
-            if (shellSurface.toplevel) {
-                shellSurface.toplevel.sendFullscreen(size);
-            } else if (shellSurface.sendConfigure) {
-                shellSurface.sendConfigure(size, 0);
-            } else {
-                console.warn("don't know how to resize the surface");
-            }
+        onShellSurfaceChanged: {
+            lastSentSize = Qt.size(-1, -1);
+            handleSizeChanged();
         }
-        Component.onCompleted: handleSizeChanged();
-        onShellSurfaceChanged: handleSizeChanged();
         onActiveFocusChanged: console.log("couchAppView activeFocus", activeFocus);
         moveItem: noop // hack to disable window moving
         Item { id: noop }
