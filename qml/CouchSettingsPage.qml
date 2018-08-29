@@ -73,7 +73,7 @@ CouchPage {
         }
         CouchButton {
             text: "Scale factor " + output.scaleFactor
-            onClicked: output.scaleFactor = (output.scaleFactor + 1) % 3 + 1
+            onClicked: output.scaleFactor = (output.scaleFactor) % 4 + 1
         }
     }
     Column {
