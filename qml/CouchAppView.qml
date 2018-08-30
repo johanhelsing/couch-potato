@@ -66,14 +66,12 @@ WaylandMouseTracker {
         }
     }
     WaylandCursorItem {
-        enabled: false
         property real cursorSpeed: window.width / 2 // pixels per second
         property real scrollSpeed: window.width * 3 // pixels per second
         property real scrollBufferX: 0
         property real scrollBufferY: 0
         z: 1
         id: mouseCursor
-        inputEventsEnabled: false
         seat: gamepadSeat
         function updateWheelVelocity() {
             update();
