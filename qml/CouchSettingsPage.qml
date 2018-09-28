@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.12
 import QtGamepad 1.0
 import FontAwesome 1.0
 
@@ -74,8 +75,12 @@ CouchPage {
             description: "Reset button bindings to defaults"
         }
         CouchButton {
-            text: "Scale factor " + output.scaleFactor
+            text: `Scale factor: ${output.scaleFactor}`
             onClicked: output.scaleFactor = (output.scaleFactor) % 4 + 1
+        }
+        CouchButton {
+            text: `Fullscreen: ${window.visibility === Window.FullScreen ? "yes" : "no"}`
+            onClicked: window.visibility = window.visibility === Window.FullScreen ? Window.Windowed : Window.FullScreen
         }
     }
     Column {
