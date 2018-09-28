@@ -45,7 +45,7 @@ ApplicationWindow {
     GamepadKeyNavigation {
         id: gamepadKeyNavigation
         gamepad: gamepad
-        active: !settingsPage.configuringButtons
+        active: !settingsPage.configuringButtons && overlay.enabled
         buttonAKey: Qt.Key_Space
         buttonGuideKey: Qt.Key_Escape
         buttonStartKey: Qt.Key_Escape
