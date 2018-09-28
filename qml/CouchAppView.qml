@@ -58,6 +58,7 @@ ShellSurfaceItem {
         id: mouseCursor
         inputEventsEnabled: false
         seat: gamepadSeat
+        z: 100 // keep above popups
         function updateWheelVelocity() {
             update();
         }
@@ -93,9 +94,16 @@ ShellSurfaceItem {
             x += gamepad.axisLeftX * mouseCursor.cursorSpeed * deltaTime;
             y += gamepad.axisLeftY * mouseCursor.cursorSpeed * deltaTime;
             var mousePos = Qt.point(x, y);
-            mousePos.x /= couchAppView.compositor.defaultOutput.scaleFactor; // because of a bug in sendMouseMoveEvent
-            mousePos.y /= couchAppView.compositor.defaultOutput.scaleFactor; // because of a bug in sendMouseMoveEvent
-            couchAppView.sendMouseMoveEvent(mousePos);
+            visible = false;
+            var child = couchAppView.childAt(x, y);
+            visible = true;
+            if (child) {
+                mousePos = child.mapFromItem(couchAppView, mousePos.x, mousePos.y);
+            }
+            mousePos.x /= couchAppView.compositor.defaultOutput.scaleFactor / Screen.devicePixelRatio; // because of a bug in sendMouseMoveEvent
+            mousePos.y /= couchAppView.compositor.defaultOutput.scaleFactor / Screen.devicePixelRatio; // because of a bug in sendMouseMoveEvent
+            var target = child || couchAppView;
+            target.sendMouseMoveEvent(mousePos);
         }
         Connections {
             target: window
