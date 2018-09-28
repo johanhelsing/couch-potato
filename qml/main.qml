@@ -10,6 +10,7 @@ WaylandCompositor {
     }
 
     XdgShell { onToplevelCreated: handleShellSurfaceCreated(xdgSurface); }
+    XdgDecorationManagerV1 { preferredMode: XdgToplevel.ServerSideDecoration }
 
     // legacy shells
     XdgShellV6 { onToplevelCreated: handleShellSurfaceCreated(xdgSurface); }
