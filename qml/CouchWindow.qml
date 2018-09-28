@@ -84,6 +84,8 @@ ApplicationWindow {
             onActiveSurfaceChanged: {
                 if (activeSurface) {
                     replace("CouchAppView.qml", {shellSurface: activeSurface});
+                } else {
+                    overlay.enabled = true;
                 }
             }
             replaceEnter: Transition {
