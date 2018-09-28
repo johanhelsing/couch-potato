@@ -2,10 +2,12 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGamepad 1.0
+import FontAwesome 1.0
 
 CouchPage {
     id: settings
     title: "Settings"
+    icon: FontAwesome.cog
     property int currentButton: -1
     readonly property bool configuringButtons: currentButton >= 0
     Keys.onEscapePressed: currentButton = -1;

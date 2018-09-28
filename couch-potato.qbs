@@ -29,6 +29,7 @@ Project {
             "main.cpp",
             "processengine.cpp",
             "processengine.h",
+            "vendor/font/awesome/pri/fontawesome.qrc"
         ]
 
         Group {

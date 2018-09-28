@@ -5,6 +5,7 @@ import QtWayland.Compositor 1.1
 import QtGraphicalEffects 1.0
 import QtGamepad 1.0
 import QtQuick.Window 2.7
+import FontAwesome 1.0
 
 ApplicationWindow {
     id: window
@@ -156,9 +157,10 @@ ApplicationWindow {
                             }
                             Label {
                                 anchors.centerIn: parent
+                                text: page.icon || page.title[0] || ""
                                 font.pixelSize: window.height / 20
-                                font.weight: Font.Bold
-                                text: page.title[0] || ""
+                                font.weight: page.icon ? Font.Normal : Font.Bold
+                                font.family: page.icon ? FontAwesome.fontFamily : "arial"
                             }
                             scale: swipeView.currentIndex === index ? 1 : 0.5
 

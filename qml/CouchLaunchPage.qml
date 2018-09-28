@@ -1,8 +1,10 @@
 import QtQuick 2.10
 import QtQuick.Layouts 1.3
+import FontAwesome 1.0
 
 CouchPage {
     title: "Launch"
+    icon: FontAwesome.rocket
     function launch(executable) { processEngine.run(executable); }
     ColumnLayout {
         width: parent.width * 0.66
