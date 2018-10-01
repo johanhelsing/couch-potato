@@ -37,10 +37,10 @@ ShellSurfaceItem {
     Connections {
         enabled: couchAppView.activeFocus
         target: gamepad
-//        onButtonUpChanged: gamepadSeat.sendKeyEvent(Qt.Key_Up, gamepad.buttonUp);
-//        onButtonDownChanged: gamepadSeat.sendKeyEvent(Qt.Key_Down, gamepad.buttonDown);
-//        onButtonLeftChanged: gamepadSeat.sendKeyEvent(Qt.Key_Left, gamepad.buttonLeft);
-//        onButtonRightChanged: gamepadSeat.sendKeyEvent(Qt.Key_Right, gamepad.buttonRight);
+        onButtonUpChanged: gamepadSeat.sendKeyEvent(Qt.Key_Up, gamepad.buttonUp);
+        onButtonDownChanged: gamepadSeat.sendKeyEvent(Qt.Key_Down, gamepad.buttonDown);
+        onButtonLeftChanged: gamepadSeat.sendKeyEvent(Qt.Key_Left, gamepad.buttonLeft);
+        onButtonRightChanged: gamepadSeat.sendKeyEvent(Qt.Key_Right, gamepad.buttonRight);
         onButtonAChanged: gamepadSeat.sendKeyEvent(Qt.Key_Space, gamepad.buttonA);
         onButtonBChanged: gamepadSeat.sendKeyEvent(Qt.Key_Enter, gamepad.buttonB);
         onAxisLeftXChanged: mouseCursor.updateCursorPosition();
