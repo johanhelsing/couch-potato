@@ -7,6 +7,9 @@ import QtGraphicalEffects 1.0
 Page {
     id: page
     property var shellSurface
+    property var toplevel: shellSurface ? shellSurface.toplevel : null
+    property var appId: toplevel ? toplevel.appId : ""
+    property var fullscreen: true
     signal surfaceDestroyed
     signal switchToClicked
     topPadding: page.height / 10
@@ -23,9 +26,11 @@ Page {
     }
     ColumnLayout {
         spacing: page.height / 15
-        CouchButton { text: "Switch to " + page.title; focus: true; onClicked: switchToClicked() }
-        CouchButton { text: "Emulate mouse" }
-        CouchButton { text: "Emulate arrow keys" }
+        CouchButton { text: "Resume"; focus: true; onClicked: switchToClicked() }
+        CouchButton {
+            text: `Fullscreen: ${fullscreen ? "yes" : "no"}`
+            onClicked: fullscreen = !fullscreen
+        }
         CouchButton { text: "Close"; onClicked: page.closeShellSurface() }
     }
     ShellSurfaceItem {

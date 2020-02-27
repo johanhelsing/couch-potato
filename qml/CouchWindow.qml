@@ -9,9 +9,10 @@ import FontAwesome 1.0
 
 ApplicationWindow {
     id: window
-    property ListModel shellSurfaces
+    property ListModel toplevels
     property real leftPadding: window.width / 5
     property ShellSurface currentShellSurface: swipeView.currentItem.shellSurface || null
+    visibility: Window.Maximized
     visible: true
     width: 1280
     height: 720
@@ -188,13 +189,16 @@ ApplicationWindow {
                     CouchLaunchPage {}
                     CouchSettingsPage { id: settingsPage }
                     Repeater {
-                        model: shellSurfaces
+                        model: toplevels
                         CouchAppPage {
                             id: couchAppPage
-                            shellSurface: modelData
-                            onSurfaceDestroyed: shellSurfaces.remove(index)
-                            onSwitchToClicked: { window.toggleOverlay() }
-                            Component.onCompleted: { swipeView.currentIndex = SwipeView.index; overlay.enabled = false }
+                            shellSurface: shSurface
+                            onSurfaceDestroyed: toplevels.remove(index)
+                            onSwitchToClicked: window.toggleOverlay()
+                            Component.onCompleted: {
+                                swipeView.currentIndex = SwipeView.index;
+                                overlay.enabled = false
+                            }
                         }
                     }
                 }

@@ -13,5 +13,7 @@ CouchPage {
         CouchButton { text: "Files"; description: "Browse files using Nautilus"; onClicked: launch("nautilus") }
         CouchButton { text: "Qt Creator"; description: "Qts IDE"; onClicked: launch("qtcreator") }
         CouchButton { text: "weston-simple-egl"; description: "EGL demo application"; onClicked: launch("weston-simple-egl") }
+        CouchButton { text: "window focus test"; description: "green on focus"; onClicked: launch("qmlscenedev /home/johan/qmltests/hasfocus.qml") }
+        CouchButton { text: "clickdot test"; description: "click to move crosshair"; onClicked: launch("qmlscenedev /home/johan/qmltests/clickdot.qml") }
     }
 }

@@ -11,8 +11,13 @@ ShellSurfaceItem {
     //property GamePad gamepad
     //property WaylandCompositor compositor
     property WaylandSeat gamepadSeat: compositor.defaultSeat
+    property bool fullscreen: true
     autoCreatePopupItems: true
     sizeFollowsSurface: false
+    onFullscreenChanged: {
+        handleSizeChanged()
+        console.log("fullscrenchanged");
+    }
     onWidthChanged: handleSizeChanged()
     onHeightChanged: handleSizeChanged()
     Screen.onDevicePixelRatioChanged: handleSizeChanged()
@@ -23,7 +28,11 @@ ShellSurfaceItem {
         const dp = Screen.devicePixelRatio;
         const size = Qt.size(width / output.scaleFactor * dp, height / output.scaleFactor * dp);
         if (shellSurface.toplevel) {
-            shellSurface.toplevel.sendFullscreen(size);
+            if (fullscreen) {
+                shellSurface.toplevel.sendFullscreen(size);
+            } else {
+                shellSurface.toplevel.sendMaximized(size);
+            }
         } else if (shellSurface.sendConfigure) {
             shellSurface.sendConfigure(size, 0);
         } else {

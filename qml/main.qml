@@ -3,10 +3,14 @@ import QtWayland.Compositor 1.3
 
 WaylandCompositor {
     id: compositor
-    property ListModel shellSurfaces: ListModel {}
+    property ListModel toplevels: ListModel {}
 
-    function handleShellSurfaceCreated(shellSurface) {
-        compositor.shellSurfaces.append({shellSurface: shellSurface});
+    function handleShellSurfaceCreated(shSurface) {
+        console.log("shell surface created", shSurface)
+        compositor.toplevels.append({
+            shSurface,
+            fullscreen: true
+        });
     }
 
     XdgShell { onToplevelCreated: handleShellSurfaceCreated(xdgSurface); }
@@ -23,7 +27,7 @@ WaylandCompositor {
         scaleFactor: 2
         sizeFollowsWindow: true
         window: CouchWindow {
-            shellSurfaces: compositor.shellSurfaces
+            toplevels: compositor.toplevels
         }
     }
 
